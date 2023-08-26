@@ -26,10 +26,6 @@ local function maxList( tbl )
     return numb
 end
 
-function la( tbl )
-    return tbl[#tbl]
-end
-
 local Sizes = {
     [0] = FFT_256,      -- 0 - 128 levels
     [1] = FFT_512,      -- 1 - 256 levels
@@ -177,7 +173,7 @@ do
 
         for i = 1, 2 do
             self.Beat[i] = false
-            local last = la( self.PeakHistory[i] )
+            local last = self.PeakHistory[i][#self.PeakHistory[i]]
             local aver = averageList( self.PeakHistory[i] )
             if not self.Peak[i] and last > aver * 1.1 then
                 self.Peak[i] = true
