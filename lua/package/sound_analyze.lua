@@ -8,24 +8,6 @@ local function averageList( tbl )
     return sum / #tbl
 end
 
-local function minList( tbl )
-    local numb = math.huge
-    for num, number in ipairs( tbl ) do
-        numb = math.min( numb, number )
-    end
-
-    return numb
-end
-
-local function maxList( tbl )
-    local numb = 0
-    for num, number in ipairs( tbl ) do
-        numb = math.max( numb, number )
-    end
-
-    return numb
-end
-
 local Sizes = {
     [0] = FFT_256,      -- 0 - 128 levels
     [1] = FFT_512,      -- 1 - 256 levels
