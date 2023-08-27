@@ -1,3 +1,5 @@
+local ipairs = ipairs
+local _G = _G
 
 local function averageList( tbl )
     local sum = 0
@@ -22,7 +24,7 @@ local Sizes = {
 local Analysis = {}
 Analysis.__index = Analysis
 
-function SoundAnalyze( channel )
+function _G.SoundAnalyze( channel )
     local meta = setmetatable({
         ['Channel'] = channel
     }, Analysis )
