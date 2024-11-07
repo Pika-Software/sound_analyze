@@ -56,6 +56,9 @@ function Analysis:Init()
     self.History = {}
     self.PeakHistory = { {}, {} }
     self.Peak = { false, false }
+    self.BPM = {}
+    self.BPMlist = {{},{}}
+    self.BPMbuffer = {{},{}}
     self.Beat = { false, false }
     self.PeakHistorySize = { 220, 220 }
     self.AdaptiveSize = { 0, 0 }
@@ -70,9 +73,12 @@ function Analysis:Init()
         self.Channel:FFT( self.FFT, 6 )
         self:GetPeaks()
     end )
+
 end
 
 do
+
+
 
     function Analysis:GetChannel()
         return self.Channel
@@ -162,6 +168,17 @@ do
             if not self.Peak[i] and last > aver * 1.1 then
                 self.Peak[i] = true
                 self.Beat[i] = true
+                table.insert( self.BPMbuffer[i], SysTime() )
+                if #self.BPMbuffer[i] > 2 then
+                    table.remove( self.BPMbuffer[i], 1 )
+                end
+
+                table.insert( self.BPMlist[i], self.BPMbuffer[i][2] - self.BPMbuffer[i][1] )
+                if #self.BPMlist[i] > 14 then
+                    table.remove( self.BPMlist[i], 1 )
+                end
+
+                self.BPM[i] = math.max( 0, (1 - averageList( self.BPMlist[i] )) * 256 )
 
                 if self.Events['beat_' .. i] then
                     for n, func in ipairs( self.Events['beat_' .. i] ) do
@@ -176,5 +193,7 @@ do
         end
 
     end
+
+
 
 end
